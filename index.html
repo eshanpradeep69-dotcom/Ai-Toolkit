@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance AI Toolkit Pro</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body { background: #0a0a0f; color: #e5e7eb; font-family: system-ui; }
+.tab-btn { transition: all 0.2s; }
+.tab-btn.active { background: #7c3aed; }
+.glass { background: rgba(31,41,55,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(124,58,237,0.2); }
+</style>
+</head>
+<body class="min-h-screen p-4">
+<div class="max-w-4xl mx-auto">
+
+<h1 class="text-3xl font-bold text-center mb-2 text-purple-400">Freelance AI Toolkit Pro</h1>
+<p class="text-center text-gray-400 mb-6">5 Services in 1 Professional Tool</p>
+
+<!-- TABS -->
+<div class="flex gap-2 overflow-x-auto mb-6 pb-2">
+  <button class="tab-btn active px-4 py-2 rounded-lg whitespace-nowrap" onclick="showTab(1)">1. Social Posts</button>
+  <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(2)">2. Resume Maker</button>
+  <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(3)">3. Product Desc</button>
+  <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(4)">4. YouTube Kit</button>
+  <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(5)">5. PDF to Excel</button>
+</div>
+
+<!-- TAB 1 -->
+<div id="tab1" class="glass p-6 rounded-xl">
+  <h2 class="text-xl font-bold mb-4">Social Media Post Generator</h2>
+  <input id="niche1" placeholder="Niche e.g. Fitness" class="w-full p-2 mb-2 bg-gray-900 rounded">
+  <input id="product1" placeholder="Product Name" class="w-full p-2 mb-3 bg-gray-900 rounded">
+  <button onclick="genSocial()" class="bg-purple-600 px-4 py-2 rounded">Generate</button>
+  <div id="out1" class="mt-4"></div>
+</div>
+
+<!-- TAB 2 -->
+<div id="tab2" class="glass p-6 rounded-xl hidden">
+  <h2 class="text-xl font-bold mb-4">ATS Resume + Cover Letter</h2>
+  <input id="name2" placeholder="Full Name" class="w-full p-2 mb-2 bg-gray-900 rounded">
+  <input id="job2" placeholder="Target Job" class="w-full p-2 mb-2 bg-gray-900 rounded">
+  <textarea id="exp2" placeholder="Experience" class="w-full p-2 mb-3 bg-gray-900 rounded"></textarea>
+  <button onclick="genResume()" class="bg-purple-600 px-4 py-2 rounded">Generate</button>
+  <div id="out2" class="mt-4"></div>
+</div>
+
+<!-- TAB 3 -->
+<div id="tab3" class="glass p-6 rounded-xl hidden">
+  <h2 class="text-xl font-bold mb-4">Shopify Product Description</h2>
+  <input id="prod3" placeholder="Product Name" class="w-full p-2 mb-2 bg-gray-900 rounded">
+  <textarea id="feat3" placeholder="Key Features" class="w-full p-2 mb-3 bg-gray-900 rounded"></textarea>
+  <button onclick="genProduct()" class="bg-purple-600 px-4 py-2 rounded">Generate</button>
+  <div id="out3" class="mt-4"></div>
+</div>
+
+<!-- TAB 4 -->
+<div id="tab4" class="glass p-6 rounded-xl hidden">
+  <h2 class="text-xl font-bold mb-4">YouTube Content Kit</h2>
+  <input id="niche4" placeholder="Channel Niche" class="w-full p-2 mb-2 bg-gray-900 rounded">
+  <input id="topic4" placeholder="Video Topic" class="w-full p-2 mb-3 bg-gray-900 rounded">
+  <button onclick="genYT()" class="bg-purple-600 px-4 py-2 rounded">Generate</button>
+  <div id="out4" class="mt-4"></div>
+</div>
+
+<!-- TAB 5 -->
+<div id="tab5" class="glass p-6 rounded-xl hidden">
+  <h2 class="text-xl font-bold mb-4">PDF to Excel Converter</h2>
+  <p class="text-sm text-gray-400 mb-2">Option 1: Upload PDF</p>
+  <input type="file" id="pdfFile" accept=".pdf" class="mb-3">
+  <p class="text-sm text-gray-400 mb-2">Option 2: Paste Text</p>
+  <textarea id="textPaste" placeholder="Paste table data here..." class="w-full p-2 mb-3 bg-gray-900 rounded h-24"></textarea>
+  <button onclick="convertPDF()" class="bg-purple-600 px-4 py-2 rounded mr-2">Convert</button>
+  <button onclick="downloadExcel()" class="bg-green-600 px-4 py-2 rounded">Download Excel</button>
+  <div id="preview" class="mt-4 overflow-x-auto"></div>
+</div>
+
+</div>
+
+<script>
+let excelData = [];
+function showTab(n){
+  for(let i=1;i<=5;i++) document.getElementById('tab'+i).classList.add('hidden');
+  document.getElementById('tab'+n).classList.remove('hidden');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.remove('active','bg-purple-600'));
+  document.querySelectorAll('.tab-btn')[n-1].classList.add('active','bg-purple-600');
+}
+
+function genSocial(){
+  const out = `<p><b>Caption 1:</b> Transform your life with ${document.getElementById('product1').value}! #${document.getElementById('niche1').value}</p><button onclick="copy(this)">Copy</button>`;
+  document.getElementById('out1').innerHTML = out;
+}
+function genResume(){
+  const out = `<p><b>Resume for ${document.getElementById('job2').value}</b><br>${document.getElementById('name2').value}</p><button onclick="downloadPDF('Resume')">Download PDF</button>`;
+  document.getElementById('out2').innerHTML = out;
+}
+function genProduct(){
+  document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value}</p><button onclick="copy(this)">Copy</button>`;
+}
+function genYT(){
+  document.getElementById('out4').innerHTML = `<p><b>Title:</b> 5 Secrets of ${document.getElementById('topic4').value}</p><button onclick="copy(this)">Copy</button>`;
+}
+
+async function convertPDF(){
+  const file = document.getElementById('pdfFile').files[0];
+  const text = document.getElementById('textPaste').value;
+  if(text){ excelData = [text.split('\n').map(r=>r.split(','))]; showTable(excelData[0]); }
+  else if(file){ alert('PDF reading... Please paste text for now in free version'); }
+}
+function showTable(data){ document.getElementById('preview').innerHTML = '<table class="w-full border">'+data.map(r=>'<tr>'+r.map(c=>`<td class="border p-1">${c}</td>`).join('')+'</tr>').join('')+'</table>'; }
+function downloadExcel(){
+  const ws = XLSX.utils.aoa_to_sheet(excelData[0]);
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,"Sheet1",ws);
+  XLSX.writeFile(wb,"converted.xlsx");
+}
+function downloadPDF(name){
+  const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.text(name,10,10); doc.save(name+'.pdf');
+}
+function copy(btn){ navigator.clipboard.writeText(btn.previousElementSibling.innerText); btn.innerText='Copied!'; }
+</script>
+</body>
+  </html>
