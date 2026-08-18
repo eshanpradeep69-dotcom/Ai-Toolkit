@@ -114,11 +114,29 @@ function genSocial(){
   document.getElementById('out1').innerHTML = out;
 }
 
-function genResume(){
-  const out = `<p><b>ATS Resume for ${document.getElementById('job2').value}</b><br><b>Name:</b> ${document.getElementById('name2').value}<br><b>Experience:</b> ${document.getElementById('exp2').value}</p><button onclick="downloadPDF('Resume')" class="bg-green-600 px-3 py-1 rounded mt-2">Download PDF</button>`;
-  document.getElementById('out2').innerHTML = out;
-}
+function generateResume(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  const name = document.getElementById('resumeName').value;
+  const job = document.getElementById('resumeJob').value;
+  const exp = document.getElementById('resumeExp').value;
 
+  if(!name){ alert('Name එක දාන්න'); return; }
+
+  doc.setFontSize(20);
+  doc.text("Resume", 20, 20);
+  
+  doc.setFontSize(12);
+  doc.text(`Name: ${name}`, 20, 40);
+  doc.text(`Target Job: ${job}`, 20, 50);
+  doc.text(`Experience:`, 20, 60);
+  
+  const splitExp = doc.splitTextToSize(exp, 170);
+  doc.text(splitExp, 20, 70);
+
+  doc.save("Resume.pdf");
+    }
 function genProduct(){
   document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value} 2026</p><p><b>Description:</b> ${document.getElementById('prod3').value} with ${document.getElementById('feat3').value}. High quality and fast delivery.</p><button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded mt-2">Copy</button>`;
 }
