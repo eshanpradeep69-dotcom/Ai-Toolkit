@@ -88,10 +88,21 @@ function showTab(n){
   document.getElementById('tab'+n).classList.remove('hidden');
   document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.remove('active','bg-purple-600'));
   document.querySelectorAll('.tab-btn')[n-1].classList.add('active','bg-purple-600');
-}
-
 function genSocial(){
-  const out = `<p><b>Caption 1:</b> Transform your life with ${document.getElementById('product1').value}! #${document.getElementById('niche1').value}</p><button onclick="copy(this)">Copy</button>`;
+  let niche = document.getElementById('niche1').value;
+  let product = document.getElementById('product1').value;
+  if(!niche || !product){ alert('Niche & Product fill කරන්න'); return; }
+  
+  let out = `<b>🔥 10 Captions:</b><br><br>`;
+  for(let i=1;i<=10;i++){
+    out += `<b>Caption ${i}:</b> ${product} එකෙන් ඔයාගේ ${niche} goal එක next level එකට ගන්න! 💪 #${niche.replace(' ','')} #${product.replace(' ','')}<br><br>`;
+  }
+  
+  out += `<b>📢 20 Hashtags:</b><br>#${niche.replace(' ','')} #${product.replace(' ','')} #gym #fitness #workout #health #motivation #lifestyle #training #bodybuilding #wellness #fit #strong #muscle #healthyliving<br><br>`;
+  
+  out += `<b>🎯 3 CTA Ideas:</b><br>1. DM "BUY" to Order Now<br>2. Link in Bio<br>3. 20% OFF Today Only!<br><br>`;
+  
+  out += `<button onclick="copy(this)">Copy All</button>`;
   document.getElementById('out1').innerHTML = out;
 }
 function genResume(){
