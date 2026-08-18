@@ -139,8 +139,11 @@ function downloadExcel(){
   const ws = XLSX.utils.aoa_to_sheet(excelData[0]);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,"Sheet1",ws);
+
+  // Mobile වල වැඩ කරන විදිහ
+  XLSX.write(wb, {bookType:'xlsx', type:'base64'});
   XLSX.writeFile(wb,"Converted-Data.xlsx");
-}
+    }
 function downloadPDF(name){
   const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.text(name,10,10); doc.save(name+'.pdf');
 }
