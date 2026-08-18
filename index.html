@@ -135,9 +135,11 @@ async function convertPDF(){
 }
 function showTable(data){ document.getElementById('preview').innerHTML = '<table class="w-full border">'+data.map(r=>'<tr>'+r.map(c=>`<td class="border p-1">${c}</td>`).join('')+'</tr>').join('')+'</table>'; }
 function downloadExcel(){
+  if(excelData.length == 0){ alert('පලවෙනි Convert ඔබන්න'); return; }
   const ws = XLSX.utils.aoa_to_sheet(excelData[0]);
-  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,"Sheet1",ws);
-  XLSX.writeFile(wb,"converted.xlsx");
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,"Sheet1",ws);
+  XLSX.writeFile(wb,"Converted-Data.xlsx");
 }
 function downloadPDF(name){
   const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.text(name,10,10); doc.save(name+'.pdf');
