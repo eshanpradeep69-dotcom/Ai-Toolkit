@@ -122,21 +122,27 @@ function generateResume(){
   if(!name){ alert('Full Name එක දාන්න'); return; }
 
   let resumeHTML = `
-    <h1 style="text-align:center;">RESUME</h1>
-    <hr>
+  <!DOCTYPE html>
+  <html>
+  <head><title>${name} - Resume</title>
+  <style>body{font-family:Arial;padding:40px} h1{text-align:center}</style>
+  </head>
+  <body>
+    <h1>RESUME</h1><hr>
     <p><b>Full Name:</b> ${name}</p>
     <p><b>Target Job:</b> ${job}</p>
     <p><b>Experience:</b></p>
-    <pre style="white-space: pre-wrap;">${exp}</pre>
-  `;
+    <pre>${exp}</pre>
+  </body>
+  </html>`;
 
-  let win = window.open('', '', 'height=700,width=700');
-  win.document.write('<html><head><title>Resume</title></head><body>');
-  win.document.write(resumeHTML);
-  win.document.write('</body></html>');
-  win.document.close();
-  win.print(); // මේකෙන් Save as PDF කරන්න පුළුවන්
-}
+  let blob = new Blob([resumeHTML], {type: 'text/html'});
+  let url = URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.href = url;
+  a.download = `${name}-Resume.html`;
+  a.click();
+    }
 function genProduct(){
   document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value} 2026</p><p><b>Description:</b> ${document.getElementById('prod3').value} with ${document.getElementById('feat3').value}. High quality and fast delivery.</p><button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded mt-2">Copy</button>`;
 }
