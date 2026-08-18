@@ -23,7 +23,7 @@ body { background: #0a0a0f; color: #e5e7eb; font-family: system-ui; }
 
 <!-- TABS -->
 <div class="flex gap-2 overflow-x-auto mb-6 pb-2">
-  <button class="tab-btn active px-4 py-2 rounded-lg whitespace-nowrap" onclick="showTab(1)">1. Social Posts</button>
+  <button class="tab-btn active px-4 py-2 rounded-lg whitespace-nowrap bg-purple-600" onclick="showTab(1)">1. Social Posts</button>
   <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(2)">2. Resume Maker</button>
   <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(3)">3. Product Desc</button>
   <button class="tab-btn px-4 py-2 rounded-lg whitespace-nowrap bg-gray-800" onclick="showTab(4)">4. YouTube Kit</button>
@@ -89,6 +89,7 @@ function showTab(n){
   document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.remove('active','bg-purple-600'));
   document.querySelectorAll('.tab-btn')[n-1].classList.add('active','bg-purple-600');
 }
+
 function genSocial(){
   var niche = document.getElementById('niche1').value;
   var product = document.getElementById('product1').value;
@@ -97,27 +98,33 @@ function genSocial(){
     return; 
   }
   
+  var hooks = ["Stop Scrolling", "Secret Revealed", "90% People Don't Know", "Try This Today", "Game Changer", "You Need This", "Pro Tip", "Results in 7 Days", "Don't Buy Before Seeing This", "The #1 Mistake"];
+  var benefits = ["energy එක වැඩි කරන්න", "fat burn කරන්න", "muscle ගොඩනගන්න", "time save කරන්න", "confidence එක වැඩි කරන්න", "stamina වැඩි කරන්න", "goal එකට ලඟා වෙන්න", "lazy නැතුව වැඩ කරන්න", "body transform කරන්න", "next level එකට යන්න"];
+  
   var out = '<b>🔥 10 Captions:</b><br><br>';
   for(var i=1;i<=10;i++){
-    out = out + '<b>Caption ' + i + ':</b> ' + product + ' එකෙන් ඔයාගේ ' + niche + ' goal එක next level එකට ගන්න! 💪 #' + niche.replace(' ','') + ' #' + product.replace(' ','') + '<br><br>';
+    out = out + '<b>Caption ' + i + ':</b> ' + hooks[i-1] + '! ' + product + ' වලින් ඔයාට පුළුවන් ' + benefits[i-1] + '. Order now! 💪 #' + niche.replace(' ','') + ' #' + product.replace(' ','') + '<br><br>';
   }
   
-  out = out + '<b>📢 20 Hashtags:</b><br>#' + niche.replace(' ','') + ' #' + product.replace(' ','') + ' #gym #fitness #workout #health #motivation #lifestyle #training #bodybuilding #wellness #fit #strong #muscle #healthyliving<br><br>';
+  out = out + '<b>📢 20 Hashtags:</b><br>#' + niche.replace(' ','') + ' #' + product.replace(' ','') + ' #gym #fitness #workout #health #motivation #lifestyle #training #bodybuilding #wellness #fit #strong #muscle #healthyliving #goals #fitlife<br><br>';
   
   out = out + '<b>🎯 3 CTA Ideas:</b><br>1. DM "BUY" to Order Now<br>2. Link in Bio<br>3. 20% OFF Today Only!<br><br>';
   
-  out = out + '<button onclick="copy(this)">Copy All</button>';
+  out = out + '<button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded">Copy All</button>';
   document.getElementById('out1').innerHTML = out;
 }
+
 function genResume(){
-  const out = `<p><b>Resume for ${document.getElementById('job2').value}</b><br>${document.getElementById('name2').value}</p><button onclick="downloadPDF('Resume')">Download PDF</button>`;
+  const out = `<p><b>ATS Resume for ${document.getElementById('job2').value}</b><br><b>Name:</b> ${document.getElementById('name2').value}<br><b>Experience:</b> ${document.getElementById('exp2').value}</p><button onclick="downloadPDF('Resume')" class="bg-green-600 px-3 py-1 rounded mt-2">Download PDF</button>`;
   document.getElementById('out2').innerHTML = out;
 }
+
 function genProduct(){
-  document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value}</p><button onclick="copy(this)">Copy</button>`;
+  document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value} 2026</p><p><b>Description:</b> ${document.getElementById('prod3').value} with ${document.getElementById('feat3').value}. High quality and fast delivery.</p><button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded mt-2">Copy</button>`;
 }
+
 function genYT(){
-  document.getElementById('out4').innerHTML = `<p><b>Title:</b> 5 Secrets of ${document.getElementById('topic4').value}</p><button onclick="copy(this)">Copy</button>`;
+  document.getElementById('out4').innerHTML = `<p><b>Title:</b> 5 Secrets of ${document.getElementById('topic4').value}</p><p><b>Description:</b> In this video we talk about ${document.getElementById('topic4').value}. Don't forget to Like and Subscribe!</p><p><b>Tags:</b> ${document.getElementById('niche4').value}, ${document.getElementById('topic4').value}, tutorial</p><button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded mt-2">Copy</button>`;
 }
 
 async function convertPDF(){
@@ -138,4 +145,4 @@ function downloadPDF(name){
 function copy(btn){ navigator.clipboard.writeText(btn.previousElementSibling.innerText); btn.innerText='Copied!'; }
 </script>
 </body>
-  </html>
+</html>
