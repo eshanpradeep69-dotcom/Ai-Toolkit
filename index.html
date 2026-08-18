@@ -88,6 +88,7 @@ function showTab(n){
   document.getElementById('tab'+n).classList.remove('hidden');
   document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.remove('active','bg-purple-600'));
   document.querySelectorAll('.tab-btn')[n-1].classList.add('active','bg-purple-600');
+}
 function genSocial(){
   var niche = document.getElementById('niche1').value;
   var product = document.getElementById('product1').value;
