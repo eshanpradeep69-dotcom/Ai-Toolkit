@@ -8,6 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body { background: #0a0a0f; color: #e5e7eb; font-family: system-ui; }
 .tab-btn { transition: all 0.2s; }
@@ -113,30 +114,34 @@ function genSocial(){
   out = out + '<button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded">Copy All</button>';
   document.getElementById('out1').innerHTML = out;
 }
-
 function generateResume(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  if(typeof window.jspdf === 'undefined'){ 
+    alert('Library load වෙලා නෑ. Page එක refresh කරන්න'); 
+    return; 
+  }
+  
+  const doc = new window.jspdf.jsPDF();
   
   const name = document.getElementById('resumeName').value;
   const job = document.getElementById('resumeJob').value;
   const exp = document.getElementById('resumeExp').value;
 
-  if(!name){ alert('Name එක දාන්න'); return; }
+  if(!name){ alert('Full Name එක දාන්න'); return; }
 
-  doc.setFontSize(20);
-  doc.text("Resume", 20, 20);
+  doc.setFontSize(22);
+  doc.text("RESUME", 105, 20, {align: "center"});
   
   doc.setFontSize(12);
-  doc.text(`Name: ${name}`, 20, 40);
+  doc.text(`Full Name: ${name}`, 20, 40);
   doc.text(`Target Job: ${job}`, 20, 50);
-  doc.text(`Experience:`, 20, 60);
+  doc.text(`Experience:`, 20, 65);
   
-  const splitExp = doc.splitTextToSize(exp, 170);
-  doc.text(splitExp, 20, 70);
+  const lines = doc.splitTextToSize(exp, 170);
+  doc.text(lines, 20, 75);
 
-  doc.save("Resume.pdf");
-    }
+  doc.save("My-Resume.pdf");
+}
+
 function genProduct(){
   document.getElementById('out3').innerHTML = `<p><b>SEO Title:</b> Best ${document.getElementById('prod3').value} 2026</p><p><b>Description:</b> ${document.getElementById('prod3').value} with ${document.getElementById('feat3').value}. High quality and fast delivery.</p><button onclick="copy(this)" class="bg-green-600 px-3 py-1 rounded mt-2">Copy</button>`;
 }
