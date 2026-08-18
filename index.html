@@ -89,20 +89,23 @@ function showTab(n){
   document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.remove('active','bg-purple-600'));
   document.querySelectorAll('.tab-btn')[n-1].classList.add('active','bg-purple-600');
 function genSocial(){
-  let niche = document.getElementById('niche1').value;
-  let product = document.getElementById('product1').value;
-  if(!niche || !product){ alert('Niche & Product fill කරන්න'); return; }
-  
-  let out = "<b>🔥 10 Captions:</b><br><br>";
-  for(let i=1;i<=10;i++){
-    out += "<b>Caption " + i + ":</b> " + product + " එකෙන් ඔයාගේ " + niche + " goal එක next level එකට ගන්න! 💪 #" + niche.replace(' ','') + " #" + product.replace(' ','') + "<br><br>";
+  var niche = document.getElementById('niche1').value;
+  var product = document.getElementById('product1').value;
+  if(niche == '' || product == ''){ 
+    alert('Niche & Product fill කරන්න'); 
+    return; 
   }
   
-  out += "<b>📢 20 Hashtags:</b><br>#" + niche.replace(' ','') + " #" + product.replace(' ','') + " #gym #fitness #workout #health #motivation #lifestyle #training #bodybuilding #wellness #fit #strong #muscle #healthyliving<br><br>";
+  var out = '<b>🔥 10 Captions:</b><br><br>';
+  for(var i=1;i<=10;i++){
+    out = out + '<b>Caption ' + i + ':</b> ' + product + ' එකෙන් ඔයාගේ ' + niche + ' goal එක next level එකට ගන්න! 💪 #' + niche.replace(' ','') + ' #' + product.replace(' ','') + '<br><br>';
+  }
   
-  out += "<b>🎯 3 CTA Ideas:</b><br>1. DM 'BUY' to Order Now<br>2. Link in Bio<br>3. 20% OFF Today Only!<br><br>";
+  out = out + '<b>📢 20 Hashtags:</b><br>#' + niche.replace(' ','') + ' #' + product.replace(' ','') + ' #gym #fitness #workout #health #motivation #lifestyle #training #bodybuilding #wellness #fit #strong #muscle #healthyliving<br><br>';
   
-  out += "<button onclick=\"copy(this)\">Copy All</button>";
+  out = out + '<b>🎯 3 CTA Ideas:</b><br>1. DM "BUY" to Order Now<br>2. Link in Bio<br>3. 20% OFF Today Only!<br><br>';
+  
+  out = out + '<button onclick="copy(this)">Copy All</button>';
   document.getElementById('out1').innerHTML = out;
 }
 function genResume(){
